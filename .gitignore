@@ -5,3 +5,4 @@ coverage.out
 *.git
 *.md
 .env
+!.gitkeep

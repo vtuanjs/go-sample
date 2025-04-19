@@ -20,7 +20,6 @@ func NewUserController(
 }
 
 func (uc *UserController) Register(c *gin.Context) {
-
 	// c.ShouldBindJSON()
 	response.SuccessResponse(c, response.ErrCodeSuccess, uc.userService.Register("", ""))
 

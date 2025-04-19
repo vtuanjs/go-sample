@@ -4,13 +4,13 @@
 	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
 	"configurations": [
-
 		{
-			"name": "Debug",
+			"name": "Attach to Air",
 			"type": "go",
-			"request": "launch",
-			"program": "${workspaceFolder}/tmp/main",
-			"mode": "exec"
+			"request": "attach",
+			"mode": "remote",
+			"port": 2345,
+			"host": "127.0.0.1"
 		}
 	]
 }

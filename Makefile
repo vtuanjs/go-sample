@@ -1,10 +1,14 @@
 APP_NAME = server
+BINARY_NAME=tmp/main
 
 run:
 	go run ./cmd/${APP_NAME}
 
-air:
+watch:
 	air
+
+clean:
+	rm -f ./$(BINARY_NAME)*
 
 wire:
 	wire ./internal/wire
@@ -17,3 +21,5 @@ test-cover:
 
 test-cover-html:
 	go tool cover -html=coverage.out -o coverage.html
+
+.PHONY: run air wire test test-cover test-cover-html
