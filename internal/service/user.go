@@ -2,9 +2,14 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"time"
+	"vtuanjs/my-project/global"
 	"vtuanjs/my-project/internal/repo"
 	"vtuanjs/my-project/pkg/response"
+
+	"github.com/segmentio/kafka-go"
 )
 
 // import "vtuanjs/my-project/internal/repo"
@@ -33,16 +38,37 @@ type userService struct {
 
 // Register implements IUserService.
 func (us *userService) Register(ctx context.Context, email string, password string) int {
-	_, err := us.userRepo.GetUserByEmail(ctx, email)
+	// _, err := us.userRepo.GetUserByEmail(ctx, email)
+	// if err != nil {
+	// 	return response.ErrCodeUserHasExist
+	// }
+
+	user, err := us.userRepo.CreateUser(ctx, email, password)
 	if err != nil {
-		user, err := us.userRepo.CreateUser(ctx, email, password)
-		if err != nil {
-			return 1
-		}
-		fmt.Print(user)
-		return response.ErrCodeSuccess
+		return response.ErrCodeInvalidParam
 	}
-	return response.ErrCodeUserHasExist
+
+	fmt.Print(user)
+
+	// kafka
+	body := make(map[string]interface{})
+	body["email"] = email
+	body["otp"] = "123456"
+
+	bodyRequest, _ := json.Marshal(body)
+	message := kafka.Message{
+		Key:   []byte("test-my-project"),
+		Value: bodyRequest,
+		Time:  time.Now(),
+	}
+	err = global.KafkaProducer.WriteMessages(ctx, message)
+	if err != nil {
+		fmt.Println(err)
+		return 100000
+	}
+
+	return response.ErrCodeSuccess
+
 }
 
 func NewUserService(

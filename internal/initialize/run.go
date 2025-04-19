@@ -6,6 +6,7 @@ func Run() {
 	InitPostgres()
 	InitPostgresC()
 	InitRedis()
+	InitKafka()
 
 	r := InitRouter()
 	r.Run(":8002")
