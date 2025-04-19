@@ -22,4 +22,16 @@ test-cover:
 test-cover-html:
 	go tool cover -html=coverage.out -o coverage.html
 
-.PHONY: run air wire test test-cover test-cover-html
+upse:
+	goose -env .env.local up
+
+downse:
+	goose -env .env.local down
+
+resetse:
+	goose -env .env.local reset
+
+sqlc:
+	sqlc generate
+
+.PHONY: run watch clean wire test test-cover test-cover-html upse downse resetse sqlc

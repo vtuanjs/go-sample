@@ -5,6 +5,7 @@ const (
 	ErrCodeParamInvalid = 20003
 	ErrInvalidToken     = 30001
 	ErrCodeUserHasExist = 50002
+	ErrCodeInvalidParam = 50003
 )
 
 var msg = map[int]string{
@@ -12,4 +13,5 @@ var msg = map[int]string{
 	ErrCodeParamInvalid: "Invalid parameter",
 	ErrInvalidToken:     "Invalid token",
 	ErrCodeUserHasExist: "User has exist",
+	ErrCodeInvalidParam: "Invalid parameter",
 }

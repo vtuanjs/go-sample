@@ -2,6 +2,7 @@ package controller
 
 import (
 	"vtuanjs/my-project/internal/service"
+	"vtuanjs/my-project/internal/vo"
 	"vtuanjs/my-project/pkg/response"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,11 @@ func NewUserController(
 
 func (uc *UserController) Register(c *gin.Context) {
 	// c.ShouldBindJSON()
-	response.SuccessResponse(c, response.ErrCodeSuccess, uc.userService.Register("", ""))
+	var params vo.UserRegisterRequest
+	if err := c.ShouldBindJSON(&params); err != nil {
+		response.ErrorResponse(c, response.ErrCodeInvalidParam, err.Error())
+		return
+	}
+	response.SuccessResponse(c, response.ErrCodeSuccess, uc.userService.Register(c, params.Email, params.Password))
 
 }

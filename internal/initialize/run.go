@@ -4,6 +4,7 @@ func Run() {
 	LoadConfig()
 	InitLogger()
 	InitPostgres()
+	InitPostgresC()
 	InitRedis()
 
 	r := InitRouter()

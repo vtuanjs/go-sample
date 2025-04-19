@@ -1,6 +1,8 @@
 package service
 
 import (
+	"context"
+	"fmt"
 	"vtuanjs/my-project/internal/repo"
 	"vtuanjs/my-project/pkg/response"
 )
@@ -22,7 +24,7 @@ import (
 // }
 
 type IUserService interface {
-	Register(email string, password string) int
+	Register(ctx context.Context, email string, password string) int
 }
 
 type userService struct {
@@ -30,11 +32,17 @@ type userService struct {
 }
 
 // Register implements IUserService.
-func (us *userService) Register(email string, password string) int {
-	if us.userRepo.GetUserByEmail(email) != "" {
-		return response.ErrCodeUserHasExist
+func (us *userService) Register(ctx context.Context, email string, password string) int {
+	_, err := us.userRepo.GetUserByEmail(ctx, email)
+	if err != nil {
+		user, err := us.userRepo.CreateUser(ctx, email, password)
+		if err != nil {
+			return 1
+		}
+		fmt.Print(user)
+		return response.ErrCodeSuccess
 	}
-	return response.ErrCodeSuccess
+	return response.ErrCodeUserHasExist
 }
 
 func NewUserService(

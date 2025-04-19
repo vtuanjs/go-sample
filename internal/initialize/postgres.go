@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 	"vtuanjs/my-project/global"
-	"vtuanjs/my-project/internal/models"
 
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
@@ -29,7 +28,7 @@ func InitPostgres() {
 	global.Logger.Info("Init Postgres success")
 	global.PDB = db
 	SetPool()
-	migrationTables()
+	// migrationTables()
 }
 
 func SetPool() {
@@ -46,9 +45,9 @@ func SetPool() {
 	sqlDB.SetConnMaxLifetime(time.Duration(m.ConnMaxLifetime) * time.Second)
 }
 
-func migrationTables() {
-	global.PDB.AutoMigrate(
-		&models.User{},
-		&models.Role{},
-	)
-}
+// func migrationTables() {
+// 	global.PDB.AutoMigrate(
+// 	// &models.User{},
+// 	// &models.Role{},
+// 	)
+// }

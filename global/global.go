@@ -1,6 +1,7 @@
 package global
 
 import (
+	"vtuanjs/my-project/internal/database"
 	"vtuanjs/my-project/pkg/logger"
 	"vtuanjs/my-project/pkg/setting"
 
@@ -13,4 +14,5 @@ var (
 	Logger *logger.LoggerZap
 	RDB    *redis.Client
 	PDB    *gorm.DB
+	PDBC   *database.Queries
 )

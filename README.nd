@@ -5,3 +5,7 @@ docker rm -f my_project_container && docker run \
   -p 8002:8002 \
   --network go_nw \
   my_project
+
+
+goose -dir sql/schema create user sql
+goose -dir sql/schema create role sql
