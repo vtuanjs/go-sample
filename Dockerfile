@@ -10,7 +10,7 @@ RUN go build -o app ./cmd/server
 
 FROM scratch
 
-COPY ./config/production.yaml /config/local.yaml
+COPY .env.prod .env.local
 
 COPY --from=builder /build/app /
 
