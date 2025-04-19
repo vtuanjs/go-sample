@@ -1,12 +1,22 @@
 package repo
 
-type UserRepo struct {
+type IUserRepo interface {
+	GetUserByID(id string) string
+	GetUserByEmail(email string) string
 }
 
-func NewUserRepo() *UserRepo {
-	return &UserRepo{}
+type userRepo struct{}
+
+// GetUserByEmail implements IUserRepo.
+func (u *userRepo) GetUserByEmail(email string) string {
+	return email
 }
 
-func (ur *UserRepo) GetUserByID(id string) string {
+// GetUserByID implements IUserRepo.
+func (u *userRepo) GetUserByID(id string) string {
 	return `user ` + id
+}
+
+func NewUserRepo() IUserRepo {
+	return &userRepo{}
 }

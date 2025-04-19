@@ -3,8 +3,9 @@ package response
 import (
 	"net/http"
 
+	"vtuanjs/my-project/pkg/utils"
+
 	"github.com/gin-gonic/gin"
-	"github.com/vtuanjs/my-project/pkg/utils"
 )
 
 type ResponseData struct {

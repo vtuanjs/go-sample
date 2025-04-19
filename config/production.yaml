@@ -1,8 +1,8 @@
 server:
   port: 8002
-  mode: "dev"
+  mode: "prod"
 postgres:
-  host: localhost
+  host: postgres_go
   port: 5432
   username: postgres
   password: postgres
@@ -18,7 +18,7 @@ log:
   maxAge: 30
   compress: true
 redis:
-  host: localhost
+  host: redis_go
   port: 6379
   password: ""
   db: 0

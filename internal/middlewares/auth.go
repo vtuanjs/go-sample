@@ -1,8 +1,9 @@
 package middlewares
 
 import (
+	"vtuanjs/my-project/pkg/response"
+
 	"github.com/gin-gonic/gin"
-	"github.com/vtuanjs/my-project/pkg/response"
 )
 
 func AuthMiddleware() gin.HandlerFunc {

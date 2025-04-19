@@ -1,24 +1,27 @@
 package controller
 
 import (
+	"vtuanjs/my-project/internal/service"
+	"vtuanjs/my-project/pkg/response"
+
 	"github.com/gin-gonic/gin"
-	"github.com/vtuanjs/my-project/internal/service"
-	"github.com/vtuanjs/my-project/pkg/response"
 )
 
 type UserController struct {
-	userService *service.UserService
+	userService service.IUserService
 }
 
-func NewUserController() *UserController {
+func NewUserController(
+	userService service.IUserService,
+) *UserController {
 	return &UserController{
-		userService: service.NewUserService(),
+		userService: userService,
 	}
 }
 
-func (uc *UserController) GetUserByID(c *gin.Context) {
-	id := c.Param("id")
+func (uc *UserController) Register(c *gin.Context) {
 
 	// c.ShouldBindJSON()
-	response.SuccessResponse(c, response.ErrCodeSuccess, uc.userService.GetUserByID(id))
+	response.SuccessResponse(c, response.ErrCodeSuccess, uc.userService.Register("", ""))
+
 }

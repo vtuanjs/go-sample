@@ -1,0 +1,9 @@
+{
+  "go.languageServerFlags": [],
+  "go.toolsEnvVars": {
+    "GOFLAGS": "-tags=wireinject"
+  },
+  "gopls": {
+    "buildFlags": ["-tags=wireinject"]
+  }
+}

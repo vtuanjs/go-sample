@@ -1,37 +1,49 @@
 package initialize
 
 import (
+	"vtuanjs/my-project/global"
+	"vtuanjs/my-project/internal/routers"
+
 	"github.com/gin-gonic/gin"
-	c "github.com/vtuanjs/my-project/internal/controller"
-	"github.com/vtuanjs/my-project/internal/middlewares"
 )
 
+func MiddlewareA() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Next()
+	}
+}
+
 func InitRouter() *gin.Engine {
-	r := gin.Default()
-	r.Use(middlewares.AuthMiddleware())
-
-	v1 := r.Group("/v1")
-	{
-		adminV1 := v1.Group("/admin")
-		{
-			adminV1.GET("/users/:id", c.NewUserController().GetUserByID)
-		}
-
-		v1.GET("/ping/:name", c.NewPongController().Pong)
-		v1.GET("/users/:id", c.NewUserController().GetUserByID)
-		// v1.PUT("/ping", Pong)
-		// v1.PATCH("/ping", Pong)
-		// v1.OPTIONS("/ping", Pong)
+	var r *gin.Engine
+	if global.Config.Server.Mode == "dev" {
+		gin.SetMode(gin.DebugMode)
+		gin.ForceConsoleColor()
+		r = gin.Default()
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+		r = gin.New()
 	}
 
-	// v2 := r.Group("/v2")
-	// {
-	// v2.GET("/ping", Pong)
-	// v2.POST("/ping", Pong)
-	// v2.PUT("/ping", Pong)
-	// v2.PATCH("/ping", Pong)
-	// v2.OPTIONS("/ping", Pong)
-	// }
+	// middlewares
+	r.Use(MiddlewareA())
+	// r.Use()
+	// r.Use()
+
+	managerRouter := routers.RouterGroupApp.Manager
+	userRouter := routers.RouterGroupApp.User
+
+	mainGroup := r.Group("/v1")
+	{
+		mainGroup.GET("checkStatus")
+	}
+	{
+		userRouter.InitUserRouter(mainGroup)
+		userRouter.InitProductRouter(mainGroup)
+	}
+	{
+		managerRouter.InitUserRouter(mainGroup)
+		managerRouter.InitAdminRouter(mainGroup)
+	}
 
 	return r
 }

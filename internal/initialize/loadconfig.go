@@ -2,9 +2,9 @@ package initialize
 
 import (
 	"fmt"
+	"vtuanjs/my-project/global"
 
 	"github.com/spf13/viper"
-	"github.com/vtuanjs/my-project/global"
 )
 
 func LoadConfig() {
