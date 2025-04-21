@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"vtuanjs/my-project/global"
+	"vtuanjs/my-project/internal/middlewares"
 	"vtuanjs/my-project/internal/routers"
 
 	"github.com/gin-gonic/gin"
@@ -25,6 +26,7 @@ func InitRouter() *gin.Engine {
 	}
 
 	// middlewares
+	r.Use(middlewares.NewRateLimiter().GlobalRateLimiter())
 	r.Use(MiddlewareA())
 	// r.Use()
 	// r.Use()
@@ -32,7 +34,7 @@ func InitRouter() *gin.Engine {
 	managerRouter := routers.RouterGroupApp.Manager
 	userRouter := routers.RouterGroupApp.User
 
-	mainGroup := r.Group("/v1")
+	mainGroup := r.Group("/api/v1")
 	{
 		mainGroup.GET("checkStatus")
 	}

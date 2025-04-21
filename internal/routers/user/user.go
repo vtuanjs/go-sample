@@ -1,6 +1,7 @@
 package user
 
 import (
+	"vtuanjs/my-project/internal/controller/account"
 	"vtuanjs/my-project/internal/middlewares"
 	"vtuanjs/my-project/internal/wire"
 
@@ -17,12 +18,15 @@ func (pr *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	{
 		userRouterPublic.POST("/register", userController.Register)
 		userRouterPublic.POST("/otp")
+		userRouterPublic.POST("/login", account.Login.Login)
 	}
 
 	// private router
 	userRouterPrivate := Router.Group("/users")
+	userRouterPrivate.Use(middlewares.NewRateLimiter().UserAndPrivateAPIRateLimiter())
 	userRouterPrivate.Use(middlewares.AuthMiddleware())
 	{
 		userRouterPrivate.GET("/me")
+		userRouterPrivate.POST("/test-private", account.Login.Login)
 	}
 }

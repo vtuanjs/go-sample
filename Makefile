@@ -10,7 +10,7 @@ watch:
 clean:
 	rm -f ./$(BINARY_NAME)*
 
-wire:
+wiregen:
 	wire ./internal/wire
 
 test:
@@ -31,7 +31,16 @@ downse:
 resetse:
 	goose -env .env.local reset
 
-sqlc:
+create-migration:
+	goose -env .env.local create ${name} sql
+
+up_by_one:
+	goose -env .env.local up-by-one
+
+sqlgen:
 	sqlc generate
+
+swag:
+	swag init -g ./cmd/server/main.go -o ./cmd/swag/docs
 
 .PHONY: run watch clean wire test test-cover test-cover-html upse downse resetse sqlc
